@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useMobile } from "@/hooks/use-mobile"
 import CustomCursor from "@/components/custom-cursor"
 import { LuCodeXml } from "react-icons/lu";
+import { Toaster } from "@/components/ui/toaster"
 import {
   SiReact,
   SiNextdotjs,
@@ -47,6 +48,7 @@ import { FaJava } from "react-icons/fa";
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
   const [cursorVariant, setCursorVariant] = useState("default")
   const { toast } = useToast()
@@ -99,7 +101,7 @@ export default function Portfolio() {
 
   // Copy email to clipboard
   const copyEmail = () => {
-    navigator.clipboard.writeText("your.email@example.com")
+    navigator.clipboard.writeText("rayyanasghar9@gmail.com")
     toast({
       title: "Email copied!",
       description: "Email address copied to clipboard",
@@ -257,7 +259,6 @@ export default function Portfolio() {
 
     if (validateForm()) {
       try {
-        // Show loading state
         toast({
           title: "Sending message...",
           description: "Please wait while we process your message.",
@@ -271,13 +272,11 @@ export default function Portfolio() {
           },
           body: JSON.stringify(formData),
         })
-
         if (response.ok) {
           toast({
             title: "Message sent!",
             description: "Thanks for reaching out. I'll get back to you soon!",
           })
-
           // Reset form
           setFormData({
             name: "",
@@ -825,6 +824,8 @@ export default function Portfolio() {
           <ChevronUp className="h-5 w-5 text-[#00ff66]" />
         </motion.button>
       </footer>
+
+      <Toaster />
     </div>
   )
 }
