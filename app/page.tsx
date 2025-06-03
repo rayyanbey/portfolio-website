@@ -157,6 +157,16 @@ export default function Portfolio() {
       technologies: ["React", "Node.js", "MongoDB", "eraser.io","Express JS"],
       demoUrl: "https://github.com/rayyanbey/streamify_backend",
       githubUrl: "https://github.com/rayyanbey/streamify_backend",
+    },
+    {
+      id: 6,
+      title: "Codeinsight-IDE",
+      description:
+        "Your coding partner",
+      image: "/comingsoon.jpg",
+      technologies: ["React", "Node.js", "MongoDB","Express JS","Postman"],
+      demoUrl: "#",
+      githubUrl: "#",
     }
   ]
 
