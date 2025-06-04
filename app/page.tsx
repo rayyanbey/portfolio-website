@@ -163,10 +163,20 @@ export default function Portfolio() {
       title: "Codeinsight-IDE",
       description:
         "Your coding partner",
-      image: "/comingsoon.jpg",
+      image: "/codeinsight.png",
       technologies: ["React", "Node.js", "MongoDB","Express JS","Postman"],
-      demoUrl: "#",
-      githubUrl: "#",
+      demoUrl: "https://web-project-frontend-main.vercel.app/",
+      githubUrl: "https://github.com/rabiuddin/Web_Project_Backend",
+    },
+    {
+      id: 7,
+      title: "Gen-1",
+      description:
+        "Agency website for a company that provides Digital Solution",
+      image: "/comingsoon.jpg",
+      technologies: ["Next.js", "Tailwind CSS", "Shadcn-UI", "Vercel"],
+      demoUrl: "https://gen1-design.vercel.app/",
+      githubUrl: "https://github.com/rayyanbey/gen1",
     }
   ]
 
