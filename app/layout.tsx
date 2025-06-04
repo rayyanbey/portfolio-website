@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: 'Muhammad Rayyan - Web Developer & Full Stack Engineer',
     description:
       "Explore the creative portfolio and projects of Muhammad Rayyan, a skilled Web Developer and Full Stack Engineer.",
-    url: 'https://www.yourdomain.com', // update with your site's URL
+    url: 'https://rayyan-web.vercel.app/', // update with your site's URL
     siteName: 'Muhammad Rayyan Portfolio',
     locale: 'en_US',
     type: 'website',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     'linkedin:profile': 'https://www.linkedin.com/in/rayyan-asghar-4520262a5/', // update with your actual LinkedIn profile URL
   },
   icons:{
-    
+     
   }
 }
 
