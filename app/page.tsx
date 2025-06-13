@@ -173,7 +173,7 @@ export default function Portfolio() {
       title: "Gen-1",
       description:
         "Agency website for a company that provides Digital Solution",
-      image: "/comingsoon.jpg",
+      image: "/Gen1.png",
       technologies: ["Next.js", "Tailwind CSS", "Shadcn-UI", "Vercel"],
       demoUrl: "https://gen1-design.vercel.app/",
       githubUrl: "https://github.com/rayyanbey/gen1",
