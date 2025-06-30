@@ -1,21 +1,34 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
+import TestimonialsCarousel from "@/components/testimonials-carousel";
 
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Github, Linkedin, Twitter, Mail, ChevronUp, Menu, X, Moon, Sun, NotebookIcon, Globe2Icon} from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
-import ProjectCard from "@/components/project-card"
-import TechIcon from "@/components/tech-icon"
-import ParticleBackground from "@/components/particle-background"
-import { useToast } from "@/hooks/use-toast"
-import { useMobile } from "@/hooks/use-mobile"
-import CustomCursor from "@/components/custom-cursor"
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Mail,
+  ChevronUp,
+  Menu,
+  X,
+  Moon,
+  Sun,
+  NotebookIcon,
+  Globe2Icon,
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import ProjectCard from "@/components/project-card";
+import TechIcon from "@/components/tech-icon";
+import ParticleBackground from "@/components/particle-background";
+import { useToast } from "@/hooks/use-toast";
+import { useMobile } from "@/hooks/use-mobile";
+import CustomCursor from "@/components/custom-cursor";
 import { LuCodeXml } from "react-icons/lu";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import {
   SiReact,
   SiNextdotjs,
@@ -38,75 +51,76 @@ import {
   SiSequelize,
   SiMongoose,
   SiPrisma,
-  SiBootstrap
+  SiBootstrap,
 } from "react-icons/si";
 
 import { FaJava } from "react-icons/fa";
 
-
-
 export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState("home")
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [darkMode, setDarkMode] = useState(true)
-  const [cursorVariant, setCursorVariant] = useState("default")
-  const { toast } = useToast()
-  const isMobile = useMobile()
+  const [activeSection, setActiveSection] = useState("home");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+  const [cursorVariant, setCursorVariant] = useState("default");
+  const { toast } = useToast();
+  const isMobile = useMobile();
 
-  const sections = ["home", "projects", "tech", "about", "contact"]
-  const sectionRefs = useRef<Record<string, HTMLElement | null>>({})
+  const sections = ["home", "projects", "tech", "about", "contact"];
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   // Register section refs
   const registerSection = (id: string, ref: HTMLElement | null) => {
     if (ref) {
-      sectionRefs.current[id] = ref
+      sectionRefs.current[id] = ref;
     }
-  }
+  };
 
   // Handle scroll to detect active section
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100
+      const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
-        const element = sectionRefs.current[section]
-        if (!element) continue
+        const element = sectionRefs.current[section];
+        if (!element) continue;
 
-        const offsetTop = element.offsetTop
-        const offsetHeight = element.offsetHeight
+        const offsetTop = element.offsetTop;
+        const offsetHeight = element.offsetHeight;
 
-        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-          setActiveSection(section)
-          break
+        if (
+          scrollPosition >= offsetTop &&
+          scrollPosition < offsetTop + offsetHeight
+        ) {
+          setActiveSection(section);
+          break;
         }
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [sections])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [sections]);
 
   // Scroll to section
   const scrollToSection = (id: string) => {
-    setMobileMenuOpen(false)
-    const element = sectionRefs.current[id]
+    setMobileMenuOpen(false);
+    const element = sectionRefs.current[id];
     if (element) {
       window.scrollTo({
         top: element.offsetTop - 80,
         behavior: "smooth",
-      })
+      });
     }
-  }
+  };
 
   // Copy email to clipboard
   const copyEmail = () => {
-    navigator.clipboard.writeText("rayyanasghar9@gmail.com")
+    navigator.clipboard.writeText("rayyanasghar9@gmail.com");
     toast({
       title: "Email copied!",
       description: "Email address copied to clipboard",
-    })
-  }
+    });
+  };
 
   // Projects data
   const projects = [
@@ -116,25 +130,27 @@ export default function Portfolio() {
       description:
         "Built an end-to-end application like a messenger application in which you can create your profile, add friends, create groups, etc",
       image: "/connect.png",
-      technologies: ["React", "Node.js", "MySQL", "Typscript","Express JS"],
+      technologies: ["React", "Node.js", "MySQL", "Typscript", "Express JS"],
       demoUrl: "https://connectify-two-phi.vercel.app/",
       githubUrl: "https://github.com/rayyanbey/connectify",
     },
     {
       id: 2,
       title: "Admin Dashboard",
-      description: "Created a complete dashboard that manages a travel company’s website’s content",
+      description:
+        "Created a complete dashboard that manages a travel company’s website’s content",
       image: "/admin.png",
-      technologies: ["Next.js", "Shadcn-UI", "Tailwind CSS", "Vercel","MySQL"],
+      technologies: ["Next.js", "Shadcn-UI", "Tailwind CSS", "Vercel", "MySQL"],
       demoUrl: "https://admin-dashboard-green-sigma.vercel.app/",
       githubUrl: "https://github.com/rayyanbey/admin-dashboard",
     },
     {
       id: 3,
       title: "Dar-el-mecca: Travel Agency",
-      description: "Created a complete server side of this company's main website in next js",
+      description:
+        "Created a complete server side of this company's main website in next js",
       image: "/darelmecca.png",
-      technologies: ["Next.js", "Shadcn-UI", "Tailwind CSS", "Vercel","MySQL"],
+      technologies: ["Next.js", "Shadcn-UI", "Tailwind CSS", "Vercel", "MySQL"],
       demoUrl: "https://dar-el-mecca.vercel.app/",
       githubUrl: "https://github.com/rayyanbey/dar-el-mecca",
     },
@@ -154,17 +170,16 @@ export default function Portfolio() {
       description:
         "Developed the first iteration of a video-sharing platform similar to YouTube.Implemented key features, including profile creation, updating, subscription, and video sharing with thumbnails and descriptions.",
       image: "/stream.png",
-      technologies: ["React", "Node.js", "MongoDB", "eraser.io","Express JS"],
+      technologies: ["React", "Node.js", "MongoDB", "eraser.io", "Express JS"],
       demoUrl: "https://github.com/rayyanbey/streamify_backend",
       githubUrl: "https://github.com/rayyanbey/streamify_backend",
     },
     {
       id: 6,
       title: "Codeinsight-IDE",
-      description:
-        "Your coding partner",
+      description: "Your coding partner",
       image: "/codeinsight.png",
-      technologies: ["React", "Node.js", "MongoDB","Express JS","Postman"],
+      technologies: ["React", "Node.js", "MongoDB", "Express JS", "Postman"],
       demoUrl: "https://web-project-frontend-main.vercel.app/",
       githubUrl: "https://github.com/rabiuddin/Web_Project_Backend",
     },
@@ -177,8 +192,8 @@ export default function Portfolio() {
       technologies: ["Next.js", "Tailwind CSS", "Shadcn-UI", "Vercel"],
       demoUrl: "https://gen1-design.vercel.app/",
       githubUrl: "https://github.com/rayyanbey/gen1",
-    }
-  ]
+    },
+  ];
 
   // Tech stack data
   const techStack = {
@@ -193,96 +208,109 @@ export default function Portfolio() {
       { name: "Node.js", icon: <SiNodedotjs />, experience: "2+ years" },
       { name: "Express js", icon: <SiExpress />, experience: "2+ years" },
       { name: "SpringBoot", icon: <SiSpringboot />, experience: "1+ years" },
-      { name: "Next.js", icon: <SiNextdotjs />, experience: "2+ years" }
+      { name: "Next.js", icon: <SiNextdotjs />, experience: "2+ years" },
     ],
-    databases:[
-      {name: "PostgreSQL", icon: <SiPostgresql />, experience: "1+ years"},
-      {name: "MySQL", icon: <SiMysql />, experience: "1+ years"},
-      {name: "Firebase", icon: <SiFirebase />, experience: "1+ years"},
-      { name: "MongoDB", icon: <SiMongodb />, experience: "2+ years" }
+    databases: [
+      { name: "PostgreSQL", icon: <SiPostgresql />, experience: "1+ years" },
+      { name: "MySQL", icon: <SiMysql />, experience: "1+ years" },
+      { name: "Firebase", icon: <SiFirebase />, experience: "1+ years" },
+      { name: "MongoDB", icon: <SiMongodb />, experience: "2+ years" },
     ],
-    ORMS:[
+    ORMS: [
       { name: "Sequelize", icon: <SiSequelize />, experience: "0.5 years" },
       { name: "Mongoose", icon: <SiMongoose />, experience: "1+ years" },
       { name: "Prisma", icon: <SiPrisma />, experience: "0.5 years" },
     ],
-    devops: [
-      { name: "Vercel", icon: <SiVercel />, experience: "2+ years" },
-    ],
+    devops: [{ name: "Vercel", icon: <SiVercel />, experience: "2+ years" }],
     tools: [
       { name: "Git", icon: <SiGit />, experience: "3+ years" },
       { name: "Figma", icon: <SiFigma />, experience: "1+ years" },
       { name: "Postman", icon: <SiPostman />, experience: "3+ years" },
-      { name: "V0 dev", icon: <SiVercel/>, experience: "1+ years" }
+      { name: "V0 dev", icon: <SiVercel />, experience: "1+ years" },
     ],
     languages: [
       { name: "JavaScript", icon: <SiJavascript />, experience: "2+ years" },
       { name: "SQL", icon: <SiMysql />, experience: "2+ years" },
-       { name: "Java", icon: <FaJava />, experience: "2+ years" },
+      { name: "Java", icon: <FaJava />, experience: "2+ years" },
       { name: "Python", icon: <SiPython />, experience: "1+ years" },
       { name: "C++", icon: <SiCplusplus />, experience: "3+ years" },
-    ]
-  }
-  
+    ],
+  };
+
+  //testimonials data
+  const testimonials = [
+    {
+      id: 1,
+      name: "Abdul Aleem",
+      role: "CEO",
+      company: "Gen1 Inc.",
+      image: "/placeholder.svg?height=80&width=80",
+      content:
+        "Muhammad delivered an exceptional web application that exceeded our expectations. His attention to detail and technical expertise made our project a huge success.",
+      rating: 5,
+    },
+  ];
 
   // Form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
-  })
+  });
 
   const [formErrors, setFormErrors] = useState({
     name: "",
     email: "",
     message: "",
-  })
+  });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error when typing
     if (formErrors[name as keyof typeof formErrors]) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }))
+      setFormErrors((prev) => ({ ...prev, [name]: "" }));
     }
-  }
+  };
 
   const validateForm = () => {
-    let valid = true
-    const newErrors = { name: "", email: "", message: "" }
+    let valid = true;
+    const newErrors = { name: "", email: "", message: "" };
 
     if (!formData.name.trim()) {
-      newErrors.name = "Name is required"
-      valid = false
+      newErrors.name = "Name is required";
+      valid = false;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
-      valid = false
+      newErrors.email = "Email is required";
+      valid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid"
-      valid = false
+      newErrors.email = "Email is invalid";
+      valid = false;
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Message is required"
-      valid = false
+      newErrors.message = "Message is required";
+      valid = false;
     }
 
-    setFormErrors(newErrors)
-    return valid
-  }
+    setFormErrors(newErrors);
+    return valid;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (validateForm()) {
       try {
         toast({
           title: "Sending message...",
           description: "Please wait while we process your message.",
-        })
+        });
 
         // Replace with your actual API endpoint
         const response = await fetch("/api/contact", {
@@ -291,49 +319,49 @@ export default function Portfolio() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-        })
+        });
         if (response.ok) {
           toast({
             title: "Message sent!",
             description: "Thanks for reaching out. I'll get back to you soon!",
-          })
+          });
           // Reset form
           setFormData({
             name: "",
             email: "",
             message: "",
-          })
+          });
         } else {
           toast({
             title: "Error",
             description: "Failed to send message. Please try again later.",
             variant: "destructive",
-          })
+          });
         }
       } catch (error) {
         toast({
           title: "Error",
           description: "Something went wrong. Please try again later.",
           variant: "destructive",
-        })
+        });
       }
     }
-  }
+  };
 
   // Cursor handlers
   const handleMouseEnter = () => {
-    setCursorVariant("hover")
-  }
+    setCursorVariant("hover");
+  };
 
   const handleMouseLeave = () => {
-    setCursorVariant("default")
-  }
+    setCursorVariant("default");
+  };
 
   return (
     <div
       className={cn(
         "min-h-screen bg-gray-950 text-white transition-colors duration-300",
-        darkMode ? "dark-theme" : "light-theme",
+        darkMode ? "dark-theme" : "light-theme"
       )}
     >
       {!isMobile && <CustomCursor variant={cursorVariant} />}
@@ -347,7 +375,7 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <LuCodeXml color="#00ff66" size={30}/>
+            <LuCodeXml color="#00ff66" size={30} />
           </motion.div>
 
           <div className="flex items-center gap-4">
@@ -358,7 +386,9 @@ export default function Portfolio() {
                   key={section}
                   className={cn(
                     "text-sm uppercase tracking-wider hover:text-[#00ff66] transition-colors",
-                    activeSection === section ? "text-[#00ff66]" : "text-gray-400",
+                    activeSection === section
+                      ? "text-[#00ff66]"
+                      : "text-gray-400"
                   )}
                   onClick={() => scrollToSection(section)}
                   whileHover={{ scale: 1.05 }}
@@ -370,7 +400,6 @@ export default function Portfolio() {
               ))}
             </nav>
 
-            
             {/* Mobile Menu Button */}
             <motion.button
               className="md:hidden p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
@@ -378,7 +407,11 @@ export default function Portfolio() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </motion.button>
           </div>
         </div>
@@ -399,7 +432,9 @@ export default function Portfolio() {
                     key={section}
                     className={cn(
                       "text-sm uppercase tracking-wider py-2 hover:text-[#00ff66] transition-colors",
-                      activeSection === section ? "text-[#00ff66]" : "text-gray-400",
+                      activeSection === section
+                        ? "text-[#00ff66]"
+                        : "text-gray-400"
                     )}
                     onClick={() => scrollToSection(section)}
                   >
@@ -451,7 +486,10 @@ export default function Portfolio() {
               <motion.button
                 className="px-8 py-3 rounded-full bg-gradient-to-r from-[#00eeff] to-[#00ff66] text-gray-900 font-bold text-lg shadow-lg shadow-[#00eeff]/20 hover:shadow-[#00eeff]/40 transition-all"
                 onClick={() => scrollToSection("projects")}
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px 0 rgba(0, 238, 255, 0.5)" }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 0 20px 0 rgba(0, 238, 255, 0.5)",
+                }}
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -466,14 +504,23 @@ export default function Portfolio() {
           className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
+          transition={{
+            duration: 0.8,
+            delay: 1,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
         >
           <ChevronUp className="h-8 w-8 text-[#00ff66]" />
         </motion.div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 relative" ref={(el) => registerSection("projects", el)}>
+      <section
+        id="projects"
+        className="py-20 relative"
+        ref={(el) => registerSection("projects", el)}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
@@ -507,7 +554,11 @@ export default function Portfolio() {
       </section>
 
       {/* Tech Stack Section */}
-      <section id="tech" className="py-20 bg-gray-900/50 relative" ref={(el) => registerSection("tech", el)}>
+      <section
+        id="tech"
+        className="py-20 bg-gray-900/50 relative"
+        ref={(el) => registerSection("tech", el)}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
@@ -527,38 +578,44 @@ export default function Portfolio() {
           </motion.div>
 
           <div className="space-y-12">
-            {Object.entries(techStack).map(([category, technologies], categoryIndex) => (
-              <div key={category} className="space-y-4">
-                <motion.h3
-                  className="text-2xl font-bold capitalize text-white/80"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-                >
-                  {category}
-                </motion.h3>
+            {Object.entries(techStack).map(
+              ([category, technologies], categoryIndex) => (
+                <div key={category} className="space-y-4">
+                  <motion.h3
+                    className="text-2xl font-bold capitalize text-white/80"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
+                  >
+                    {category}
+                  </motion.h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                  {technologies.map((tech, techIndex) => (
-                    <TechIcon
-                      key={tech.name}
-                      tech={tech}
-                      index={techIndex}
-                      categoryIndex={categoryIndex}
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                    />
-                  ))}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                    {technologies.map((tech, techIndex) => (
+                      <TechIcon
+                        key={tech.name}
+                        tech={tech}
+                        index={techIndex}
+                        categoryIndex={categoryIndex}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </section>
 
       {/* About Me Section */}
-      <section id="about" className="py-20 relative" ref={(el) => registerSection("about", el)}>
+      <section
+        id="about"
+        className="py-20 relative"
+        ref={(el) => registerSection("about", el)}
+      >
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <motion.div
@@ -596,7 +653,9 @@ export default function Portfolio() {
                   />
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-gray-900 px-4 py-2 rounded-lg border border-[#00ff66]/30 shadow-lg shadow-[#00ff66]/20">
-                  <p className="text-[#00ff66] font-mono">Full Stack Developer</p>
+                  <p className="text-[#00ff66] font-mono">
+                    Full Stack Developer
+                  </p>
                 </div>
               </motion.div>
 
@@ -608,23 +667,55 @@ export default function Portfolio() {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <p className="text-xl text-gray-300">
-                  Hi there! I'm Muhammad Rayyan, a passionate Full Stack Developer with a love for creating beautiful,
-                  functional, and user-friendly web applications.
+                  Hi there! I'm Muhammad Rayyan, a passionate Full Stack
+                  Developer with a love for creating beautiful, functional, and
+                  user-friendly web applications.
                 </p>
 
                 <p className="text-lg text-gray-400">
-                  With over 2 years of experience in web development, I specialize in building modern web applications
-                  using the latest technologies. I'm passionate about clean code, performance optimization, and creating
-                  exceptional user experiences.
+                  With over 2 years of experience in web development, I
+                  specialize in building modern web applications using the
+                  latest technologies. I'm passionate about clean code,
+                  performance optimization, and creating exceptional user
+                  experiences.
                 </p>
 
                 <p className="text-lg text-gray-400">
-                  When I'm not coding, you can find me exploring new technologies, reading books,
-                  or enjoying outdoor activities.
+                  When I'm not coding, you can find me exploring new
+                  technologies, reading books, or enjoying outdoor activities.
                 </p>
               </motion.div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gray-900/50 relative">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-[#00eeff] to-[#00ff66] text-transparent bg-clip-text">
+                What Clients Say
+              </span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Don't just take my word for it - here's what my clients have to
+              say about working with me.
+            </p>
+          </motion.div>
+
+          <TestimonialsCarousel
+            testimonials={testimonials}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
         </div>
       </section>
 
@@ -640,10 +731,26 @@ export default function Portfolio() {
               transition={{ duration: 0.6 }}
             >
               {[
-                { icon: <Github className="h-6 w-6" />, label: "GitHub", url: "https://github.com/rayyanbey" },
-                { icon: <Linkedin className="h-6 w-6" />, label: "LinkedIn", url: "https://www.linkedin.com/in/rayyan-asghar-4520262a5/" },
-                { icon: <NotebookIcon className="h-6 w-6" />, label: "Hashnode", url: "https://hashnode.com/@rayyanbey" },
-                { icon: <Mail className="h-6 w-6" />, label: "Email", action: copyEmail, },
+                {
+                  icon: <Github className="h-6 w-6" />,
+                  label: "GitHub",
+                  url: "https://github.com/rayyanbey",
+                },
+                {
+                  icon: <Linkedin className="h-6 w-6" />,
+                  label: "LinkedIn",
+                  url: "https://www.linkedin.com/in/rayyan-asghar-4520262a5/",
+                },
+                {
+                  icon: <NotebookIcon className="h-6 w-6" />,
+                  label: "Hashnode",
+                  url: "https://hashnode.com/@rayyanbey",
+                },
+                {
+                  icon: <Mail className="h-6 w-6" />,
+                  label: "Email",
+                  action: copyEmail,
+                },
               ].map((social, index) => (
                 <motion.div
                   key={social.label}
@@ -654,7 +761,12 @@ export default function Portfolio() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                 >
                   {social.url ? (
-                    <Link href={social.url} target="_blank" rel="noopener noreferrer" className="block">
+                    <Link
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
                       <motion.div
                         className="flex flex-col items-center gap-2"
                         whileHover={{ scale: 1.1 }}
@@ -664,7 +776,9 @@ export default function Portfolio() {
                         <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-800 border border-gray-700 shadow-lg shadow-[#00eeff]/10 hover:shadow-[#00eeff]/30 transition-all">
                           <div className="text-[#00eeff]">{social.icon}</div>
                         </div>
-                        <span className="text-gray-400 text-sm">{social.label}</span>
+                        <span className="text-gray-400 text-sm">
+                          {social.label}
+                        </span>
                       </motion.div>
                     </Link>
                   ) : (
@@ -678,7 +792,9 @@ export default function Portfolio() {
                         <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-800 border border-gray-700 shadow-lg shadow-[#00eeff]/10 hover:shadow-[#00eeff]/30 transition-all">
                           <div className="text-[#00eeff]">{social.icon}</div>
                         </div>
-                        <span className="text-gray-400 text-sm">{social.label}</span>
+                        <span className="text-gray-400 text-sm">
+                          {social.label}
+                        </span>
                       </motion.div>
                     </button>
                   )}
@@ -690,7 +806,11 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 relative" ref={(el) => registerSection("contact", el)}>
+      <section
+        id="contact"
+        className="py-20 relative"
+        ref={(el) => registerSection("contact", el)}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
@@ -705,7 +825,8 @@ export default function Portfolio() {
               </span>
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Have a project in mind or just want to say hello? Feel free to reach out!
+              Have a project in mind or just want to say hello? Feel free to
+              reach out!
             </p>
           </motion.div>
 
@@ -720,7 +841,10 @@ export default function Portfolio() {
             >
               <div className="grid grid-cols-1 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-gray-300">
+                  <label
+                    htmlFor="name"
+                    className="text-sm font-medium text-gray-300"
+                  >
                     Name
                   </label>
                   <input
@@ -733,17 +857,24 @@ export default function Portfolio() {
                       "w-full px-4 py-3 rounded-lg bg-gray-800 border text-white focus:outline-none focus:ring-2 transition-all",
                       formErrors.name
                         ? "border-red-500 focus:ring-red-500/50"
-                        : "border-gray-700 focus:border-[#00eeff] focus:ring-[#00eeff]/20",
+                        : "border-gray-700 focus:border-[#00eeff] focus:ring-[#00eeff]/20"
                     )}
                     placeholder="Your name"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   />
-                  {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
+                  {formErrors.name && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formErrors.name}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-300">
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-medium text-gray-300"
+                  >
                     Email
                   </label>
                   <input
@@ -756,17 +887,24 @@ export default function Portfolio() {
                       "w-full px-4 py-3 rounded-lg bg-gray-800 border text-white focus:outline-none focus:ring-2 transition-all",
                       formErrors.email
                         ? "border-red-500 focus:ring-red-500/50"
-                        : "border-gray-700 focus:border-[#00eeff] focus:ring-[#00eeff]/20",
+                        : "border-gray-700 focus:border-[#00eeff] focus:ring-[#00eeff]/20"
                     )}
                     placeholder="Your email"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   />
-                  {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
+                  {formErrors.email && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formErrors.email}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium text-gray-300">
+                  <label
+                    htmlFor="message"
+                    className="text-sm font-medium text-gray-300"
+                  >
                     Message
                   </label>
                   <textarea
@@ -779,19 +917,26 @@ export default function Portfolio() {
                       "w-full px-4 py-3 rounded-lg bg-gray-800 border text-white focus:outline-none focus:ring-2 transition-all",
                       formErrors.message
                         ? "border-red-500 focus:ring-red-500/50"
-                        : "border-gray-700 focus:border-[#00eeff] focus:ring-[#00eeff]/20",
+                        : "border-gray-700 focus:border-[#00eeff] focus:ring-[#00eeff]/20"
                     )}
                     placeholder="Your message"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   />
-                  {formErrors.message && <p className="text-red-500 text-sm mt-1">{formErrors.message}</p>}
+                  {formErrors.message && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formErrors.message}
+                    </p>
+                  )}
                 </div>
 
                 <motion.button
                   type="submit"
                   className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#00eeff] to-[#00ff66] text-gray-900 font-bold shadow-lg shadow-[#00eeff]/20 hover:shadow-[#00eeff]/40 transition-all"
-                  whileHover={{ scale: 1.02, boxShadow: "0 0 20px 0 rgba(0, 238, 255, 0.5)" }}
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0 0 20px 0 rgba(0, 238, 255, 0.5)",
+                  }}
                   whileTap={{ scale: 0.98 }}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -815,7 +960,8 @@ export default function Portfolio() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              &copy; {new Date().getFullYear()} Muhammad Rayyan. All rights reserved.
+              &copy; {new Date().getFullYear()} Muhammad Rayyan. All rights
+              reserved.
             </motion.p>
 
             <motion.p
@@ -825,7 +971,8 @@ export default function Portfolio() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              "Code is like humor. When you have to explain it, it's bad." – Cory House
+              "Code is like humor. When you have to explain it, it's bad." –
+              Cory House
             </motion.p>
           </div>
         </div>
@@ -847,5 +994,5 @@ export default function Portfolio() {
 
       <Toaster />
     </div>
-  )
+  );
 }
