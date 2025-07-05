@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react"
+import { ChevronLeft, ChevronRight, Star, Quote, Play, Pause } from "lucide-react"
 import Image from "next/image"
 
 interface Testimonial {
@@ -24,28 +24,45 @@ interface TestimonialsCarouselProps {
 export default function TestimonialsCarousel({ testimonials, onMouseEnter, onMouseLeave }: TestimonialsCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [progress, setProgress] = useState(0)
 
-  // Auto-play functionality
+  // Auto-play functionality with progress tracking
   useEffect(() => {
-    if (!isAutoPlaying) return
+    if (!isAutoPlaying) {
+      setProgress(0)
+      return
+    }
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
-    }, 5000)
+      setProgress((prev) => {
+        if (prev >= 100) {
+          setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
+          return 0
+        }
+        return prev + 2 // Progress increment (2% every 100ms = 5 seconds total)
+      })
+    }, 100)
 
     return () => clearInterval(interval)
   }, [isAutoPlaying, testimonials.length])
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
+    setProgress(0)
   }
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length)
+    setProgress(0)
   }
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index)
+    setProgress(0)
+  }
+
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying)
   }
 
   const handleMouseEnterCarousel = () => {
@@ -58,12 +75,34 @@ export default function TestimonialsCarousel({ testimonials, onMouseEnter, onMou
     onMouseLeave()
   }
 
+  // Don't render if no testimonials
+  if (!testimonials || testimonials.length === 0) {
+    return null
+  }
+
   return (
     <div
       className="relative max-w-4xl mx-auto"
       onMouseEnter={handleMouseEnterCarousel}
       onMouseLeave={handleMouseLeaveCarousel}
     >
+      {/* Auto-play toggle button */}
+      <motion.button
+        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600 transition-all"
+        onClick={toggleAutoPlay}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        aria-label={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
+      >
+        {isAutoPlaying ? (
+          <Pause className="h-4 w-4 text-white" />
+        ) : (
+          <Play className="h-4 w-4 text-white" />
+        )}
+      </motion.button>
+
       {/* Main testimonial display */}
       <div className="relative overflow-hidden rounded-2xl bg-gray-800/50 border border-gray-700 p-8 md:p-12 min-h-[400px]">
         <AnimatePresence mode="wait">
@@ -134,63 +173,66 @@ export default function TestimonialsCarousel({ testimonials, onMouseEnter, onMou
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation arrows */}
-        <motion.button
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600 transition-all"
-          onClick={goToPrevious}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
-          <ChevronLeft className="h-6 w-6 text-white" />
-        </motion.button>
+        {/* Navigation arrows - only show if multiple testimonials */}
+        {testimonials.length > 1 && (
+          <>
+            <motion.button
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600 transition-all"
+              onClick={goToPrevious}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft className="h-6 w-6 text-white" />
+            </motion.button>
 
-        <motion.button
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600 transition-all"
-          onClick={goToNext}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        >
-          <ChevronRight className="h-6 w-6 text-white" />
-        </motion.button>
+            <motion.button
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600 transition-all"
+              onClick={goToNext}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="h-6 w-6 text-white" />
+            </motion.button>
+          </>
+        )}
       </div>
 
-      {/* Dots indicator */}
-      <div className="flex justify-center gap-3 mt-8">
-        {testimonials.map((_, index) => (
-          <motion.button
-            key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex ? "bg-[#00eeff] shadow-lg shadow-[#00eeff]/50" : "bg-gray-600 hover:bg-gray-500"
-            }`}
-            onClick={() => goToSlide(index)}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
+      {/* Dots indicator - only show if multiple testimonials */}
+      {testimonials.length > 1 && (
+        <div className="flex justify-center gap-3 mt-8">
+          {testimonials.map((_, index) => (
+            <motion.button
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentIndex ? "bg-[#00eeff] shadow-lg shadow-[#00eeff]/50" : "bg-gray-600 hover:bg-gray-500"
+              }`}
+              onClick={() => goToSlide(index)}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Progress bar - only show if multiple testimonials and auto-playing */}
+      {testimonials.length > 1 && isAutoPlaying && (
+        <div className="mt-6 w-full bg-gray-700 rounded-full h-1 overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-[#00eeff] to-[#00ff66]"
+            style={{ width: `${progress}%` }}
+            transition={{ duration: 0.1 }}
           />
-        ))}
-      </div>
-
-      {/* Progress bar */}
-      <div className="mt-6 w-full bg-gray-700 rounded-full h-1 overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-[#00eeff] to-[#00ff66]"
-          initial={{ width: "0%" }}
-          animate={{ width: isAutoPlaying ? "100%" : "0%" }}
-          transition={{
-            duration: isAutoPlaying ? 5 : 0,
-            ease: "linear",
-            repeat: isAutoPlaying ? Number.POSITIVE_INFINITY : 0,
-          }}
-          key={`${currentIndex}-${isAutoPlaying}`}
-        />
-      </div>
-
-
+        </div>
+      )}
     </div>
   )
 }
